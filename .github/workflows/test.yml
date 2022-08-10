@@ -36,7 +36,7 @@ jobs:
                       ~/.cargo/registry/cache/
                       ~/.cargo/git/db/
                       target/
-                  key: icrc-1-cargo-${{ hashFiles('ICRC-1/target/azle/Cargo.lock') }}
+                  key: icrc-1-cargo-${{ hashFiles('package-lock.json') }}
             - run: dfx start --clean --background
             - shell: bash -l {0}
               run: npm install
