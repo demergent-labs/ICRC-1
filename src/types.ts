@@ -34,9 +34,11 @@ export type SupportedStandard = {
 
 export type State = {
     accounts: {
-        [key: OwnerKey]: {
-            [key: SubaccountKey]: nat | undefined;
-        } | undefined;
+        [key: OwnerKey]:
+            | {
+                  [key: SubaccountKey]: nat | undefined;
+              }
+            | undefined;
     };
     decimals: nat8;
     fee: nat;
@@ -60,12 +62,12 @@ export type TransferArgs = {
 };
 
 export type TransferError = Variant<{
-    BadBurn: { min_burn_amount : nat };
-    BadFee: { expected_fee : nat };
+    BadBurn: { min_burn_amount: nat };
+    BadFee: { expected_fee: nat };
     CreatedInFuture: { ledger_time: nat64 };
-    Duplicate: { duplicate_of : nat };
-    GenericError: { error_code : nat; message : string };
-    InsufficientFunds: { balance : nat };
+    Duplicate: { duplicate_of: nat };
+    GenericError: { error_code: nat; message: string };
+    InsufficientFunds: { balance: nat };
     TemporarilyUnavailable: null;
     TooOld: null;
 }>;

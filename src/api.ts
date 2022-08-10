@@ -4,10 +4,7 @@ import { state } from './state';
 import { Account, Metadatum, SupportedStandard } from './types';
 
 export function icrc1_balance_of(account: Account): Query<nat> {
-    const {
-        owner_key,
-        subaccount_key
-    } = get_account_keys(account);
+    const { owner_key, subaccount_key } = get_account_keys(account);
 
     return state.accounts?.[owner_key]?.[subaccount_key] ?? 0n;
 }
@@ -44,6 +41,4 @@ export function icrc1_total_supply(): Query<nat> {
     return state.total_supply;
 }
 
-export {
-    icrc1_transfer
-} from './transfer';
+export { icrc1_transfer } from './transfer';

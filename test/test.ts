@@ -93,27 +93,18 @@ const tests: Test[] = [
 
             return {
                 ok:
-                    (
-                        result_metadata[0][0] === 'icrc1:decimals' &&
-                        'Nat' in result_metadata[0][1] &&
-                        result_metadata[0][1].Nat === BigInt(result_decimals)
-                    ) &&
-                    (
-                        result_metadata[1][0] === 'icrc1:fee' &&
-                        'Nat' in result_metadata[1][1] &&
-                        result_metadata[1][1].Nat === result_fee
-                    ) &&
-                    (
-                        result_metadata[2][0] === 'icrc1:name' &&
-                        'Text' in result_metadata[2][1] &&
-                        result_metadata[2][1].Text === result_name
-                    ) &&
-                    (
-                        result_metadata[3][0] === 'icrc1:symbol' &&
-                        'Text' in result_metadata[3][1] &&
-                        result_metadata[3][1].Text === result_symbol
-                    )
-
+                    result_metadata[0][0] === 'icrc1:decimals' &&
+                    'Nat' in result_metadata[0][1] &&
+                    result_metadata[0][1].Nat === BigInt(result_decimals) &&
+                    result_metadata[1][0] === 'icrc1:fee' &&
+                    'Nat' in result_metadata[1][1] &&
+                    result_metadata[1][1].Nat === result_fee &&
+                    result_metadata[2][0] === 'icrc1:name' &&
+                    'Text' in result_metadata[2][1] &&
+                    result_metadata[2][1].Text === result_name &&
+                    result_metadata[3][0] === 'icrc1:symbol' &&
+                    'Text' in result_metadata[3][1] &&
+                    result_metadata[3][1].Text === result_symbol
             };
         }
     },
@@ -143,7 +134,9 @@ const tests: Test[] = [
             const result = await icrc_1_canister.icrc1_supported_standards();
 
             return {
-                ok: result[0].name === 'ICRC-1' && result[0].url === 'https://github.com/dfinity/ICRC-1'
+                ok:
+                    result[0].name === 'ICRC-1' &&
+                    result[0].url === 'https://github.com/dfinity/ICRC-1'
             };
         }
     },

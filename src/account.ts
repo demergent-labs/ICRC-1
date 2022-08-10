@@ -3,10 +3,7 @@ import { state } from './state';
 import { Account, OwnerKey, Subaccount, SubaccountKey } from './types';
 
 export function set_account_balance(account: Account, balance: nat): void {
-    const {
-        owner_key,
-        subaccount_key
-    } = get_account_keys(account);
+    const { owner_key, subaccount_key } = get_account_keys(account);
 
     let owner_account = state.accounts[owner_key];
 
@@ -37,7 +34,8 @@ export function get_account_keys(account: Account): {
 }
 
 export function subaccount_to_nat32(subaccount: Opt<Subaccount>): nat32 {
-    const subaccount_number = subaccount === null ? 0 : new DataView(subaccount.buffer).getUint32(0);
+    const subaccount_number =
+        subaccount === null ? 0 : new DataView(subaccount.buffer).getUint32(0);
 
     return subaccount_number;
 }

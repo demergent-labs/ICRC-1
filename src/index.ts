@@ -10,6 +10,4 @@ export {
     icrc1_total_supply,
     icrc1_transfer
 } from './api';
-export {
-    init
-} from './init';
+export { init } from './init';

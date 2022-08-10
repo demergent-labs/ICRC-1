@@ -25,5 +25,10 @@ export function init(args: InitArgs): Init {
         ...args.metadata
     ];
 
-    args.initial_account_balances.forEach((initial_account_balance) => set_account_balance(initial_account_balance.account, initial_account_balance.balance));
+    args.initial_account_balances.forEach((initial_account_balance) =>
+        set_account_balance(
+            initial_account_balance.account,
+            initial_account_balance.balance
+        )
+    );
 }
