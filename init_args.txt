@@ -4,28 +4,28 @@ record {
     initial_account_balances = vec {
         record {
             account = record {
-                owner = principal "aaaaa-aa";
+                owner = principal "jkpmw-aav35-wxvb3-lanyp-62lqw-fmtwc-cvqc3-jcn7p-6jtrt-x7csr-rae";
                 subaccount = opt vec { 0 : nat8; 0 : nat8; 0 : nat8; 0 : nat8 };
             };
             balance = 1 : nat;
         };
         record {
             account = record {
-                owner = principal "aaaaa-aa";
+                owner = principal "jkpmw-aav35-wxvb3-lanyp-62lqw-fmtwc-cvqc3-jcn7p-6jtrt-x7csr-rae";
                 subaccount = opt vec { 0 : nat8; 0 : nat8; 0 : nat8; 1 : nat8 };
             };
             balance = 2 : nat;
         };
         record {
             account = record {
-                owner = principal "aaaaa-aa";
+                owner = principal "jkpmw-aav35-wxvb3-lanyp-62lqw-fmtwc-cvqc3-jcn7p-6jtrt-x7csr-rae";
                 subaccount = opt vec { 0 : nat8; 0 : nat8; 0 : nat8; 2 : nat8 };
             };
             balance = 3 : nat;
         };
         record {
             account = record {
-                owner = principal "aaaaa-aa";
+                owner = principal "jkpmw-aav35-wxvb3-lanyp-62lqw-fmtwc-cvqc3-jcn7p-6jtrt-x7csr-rae";
                 subaccount = opt vec { 0 : nat8; 0 : nat8; 0 : nat8; 3 : nat8 };
             };
             balance = 4 : nat;

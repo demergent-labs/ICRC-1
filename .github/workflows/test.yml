@@ -19,15 +19,6 @@ jobs:
                   toolchain: stable
                   profile: minimal
                   override: true
-            # - uses: Swatinem/rust-cache@v2 # TODO The Rust cache is not working at all
-            # - name: Rust cache # TODO I can't figure out how to actually get the cache to work
-            #   uses: actions/cache@v2
-            #   continue-on-error: false
-            #   with:
-            #       path: target
-            #       key: icrc_1_cache_${{ hashFiles('target/azle/Cargo.lock') }}
-            #       # restore-keys: multisig_vault-cache # TODO might need to be more intelligent and hash files here
-
             - uses: actions/cache@v3
               with:
                   path: |

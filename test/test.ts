@@ -10,10 +10,12 @@ const icrc_1_canister = createActor('rrkah-fqaaa-aaaaa-aaaaq-cai', {
 
 const tests: Test[] = [
     {
-        name: 'icrc1_balance_of aaaaa-aa.0',
+        name: 'icrc1_balance_of jkpmw-aav35-wxvb3-lanyp-62lqw-fmtwc-cvqc3-jcn7p-6jtrt-x7csr-rae.0',
         test: async () => {
             const result = await icrc_1_canister.icrc1_balance_of({
-                owner: Principal.fromText('aaaaa-aa'),
+                owner: Principal.fromText(
+                    'jkpmw-aav35-wxvb3-lanyp-62lqw-fmtwc-cvqc3-jcn7p-6jtrt-x7csr-rae'
+                ),
                 subaccount: []
             });
 
@@ -23,10 +25,12 @@ const tests: Test[] = [
         }
     },
     {
-        name: 'icrc1_balance_of aaaaa-aa.1',
+        name: 'icrc1_balance_of jkpmw-aav35-wxvb3-lanyp-62lqw-fmtwc-cvqc3-jcn7p-6jtrt-x7csr-rae.1',
         test: async () => {
             const result = await icrc_1_canister.icrc1_balance_of({
-                owner: Principal.fromText('aaaaa-aa'),
+                owner: Principal.fromText(
+                    'jkpmw-aav35-wxvb3-lanyp-62lqw-fmtwc-cvqc3-jcn7p-6jtrt-x7csr-rae'
+                ),
                 subaccount: [[0, 0, 0, 1]]
             });
 
@@ -36,10 +40,12 @@ const tests: Test[] = [
         }
     },
     {
-        name: 'icrc1_balance_of aaaaa-aa.2',
+        name: 'icrc1_balance_of jkpmw-aav35-wxvb3-lanyp-62lqw-fmtwc-cvqc3-jcn7p-6jtrt-x7csr-rae.2',
         test: async () => {
             const result = await icrc_1_canister.icrc1_balance_of({
-                owner: Principal.fromText('aaaaa-aa'),
+                owner: Principal.fromText(
+                    'jkpmw-aav35-wxvb3-lanyp-62lqw-fmtwc-cvqc3-jcn7p-6jtrt-x7csr-rae'
+                ),
                 subaccount: [[0, 0, 0, 2]]
             });
 
@@ -49,10 +55,12 @@ const tests: Test[] = [
         }
     },
     {
-        name: 'icrc1_balance_of aaaaa-aa.3',
+        name: 'icrc1_balance_of jkpmw-aav35-wxvb3-lanyp-62lqw-fmtwc-cvqc3-jcn7p-6jtrt-x7csr-rae.3',
         test: async () => {
             const result = await icrc_1_canister.icrc1_balance_of({
-                owner: Principal.fromText('aaaaa-aa'),
+                owner: Principal.fromText(
+                    'jkpmw-aav35-wxvb3-lanyp-62lqw-fmtwc-cvqc3-jcn7p-6jtrt-x7csr-rae'
+                ),
                 subaccount: [[0, 0, 0, 3]]
             });
 
@@ -160,6 +168,7 @@ const tests: Test[] = [
             };
         }
     }
+    // TODO let's do some basic transfer tests from one identity to another, test identity 0 to test identity 1 or something like that
 ];
 
 run_tests(tests);
