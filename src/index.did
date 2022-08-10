@@ -1,0 +1,55 @@
+type Account = record {
+    "owner": principal;
+    "subaccount": opt blob;
+};
+
+type Metadatum = record { text; Value };
+
+type SupportedStandard = record {
+    "name": text;
+    "url": text;
+};
+
+type TransferArgs = record {
+    "amount": nat;
+    "created_at_time": opt nat64;
+    "fee": opt nat;
+    "from_subaccount": opt blob;
+    "memo": opt blob;
+    "to": Account;
+};
+
+type InitArgs = record {
+    "decimals": nat8;
+    "fee": nat;
+    "initial_account_balances": vec InitialAccountBalance;
+    "metadata": vec Metadatum;
+    "minting_account": opt Account;
+    "name": text;
+    "supported_standards": vec SupportedStandard;
+    "symbol": text;
+};
+
+type InitialAccountBalance = record {
+    "account": Account;
+    "balance": nat;
+};
+
+type TransferResult = variant { "Ok": nat; "Err": TransferError };
+
+type TransferError = variant { "BadBurn": record { "min_burn_amount": nat; }; "BadFee": record { "expected_fee": nat; }; "CreatedInFuture": record { "ledger_time": nat64; }; "Duplicate": record { "duplicate_of": nat; }; "GenericError": record { "error_code": nat; "message": text; }; "InsufficientFunds": record { "balance": nat; }; "TemporarilyUnavailable": null; "TooOld": null };
+
+type Value = variant { "Blob": blob; "Int": int; "Nat": nat; "Text": text };
+
+service: (InitArgs) -> {
+    "icrc1_balance_of": (Account) -> (nat) query;
+    "icrc1_decimals": () -> (nat8) query;
+    "icrc1_fee": () -> (nat) query;
+    "icrc1_metadata": () -> (vec Metadatum) query;
+    "icrc1_minting_account": () -> (opt Account) query;
+    "icrc1_name": () -> (text) query;
+    "icrc1_supported_standards": () -> (vec SupportedStandard) query;
+    "icrc1_symbol": () -> (text) query;
+    "icrc1_total_supply": () -> (nat) query;
+    "icrc1_transfer": (TransferArgs) -> (TransferResult);
+}

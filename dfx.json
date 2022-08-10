@@ -1,0 +1,15 @@
+{
+    "canisters": {
+        "icrc_1": {
+            "type": "custom",
+            "build": "npx azle icrc_1",
+            "root": "src",
+            "ts": "src/index.ts",
+            "candid": "src/index.did",
+            "wasm": "target/wasm32-unknown-unknown/release/icrc_1.wasm",
+            "declarations": {
+                "output": "test/dfx_generated/icrc_1"
+            }
+        }
+    }
+}

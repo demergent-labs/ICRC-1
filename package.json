@@ -1,0 +1,26 @@
+{
+  "name": "icrc-1",
+  "version": "0.0.0",
+  "description": "TypeScript implementation of the [ICRC-1 standard](https://github.com/dfinity/ICRC-1).",
+  "scripts": {
+    "dfx_install": "scripts/dfx_install.sh",
+    "test": "scripts/test.sh"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/demergent-labs/ICRC-1.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "MIT/APACHE",
+  "bugs": {
+    "url": "https://github.com/demergent-labs/ICRC-1/issues"
+  },
+  "homepage": "https://github.com/demergent-labs/ICRC-1#readme",
+  "dependencies": {
+    "azle": "0.6.0"
+  },
+  "devDependencies": {
+    "@dfinity/agent": "0.12.2"
+  }
+}

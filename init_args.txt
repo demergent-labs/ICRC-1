@@ -1,0 +1,39 @@
+record {
+    decimals = 8 : nat8;
+    fee = 0 : nat;
+    initial_account_balances = vec {
+        record {
+            account = record {
+                owner = principal "aaaaa-aa";
+                subaccount = opt vec { 0 : nat8; 0 : nat8; 0 : nat8; 0 : nat8 };
+            };
+            balance = 1 : nat;
+        };
+        record {
+            account = record {
+                owner = principal "aaaaa-aa";
+                subaccount = opt vec { 0 : nat8; 0 : nat8; 0 : nat8; 1 : nat8 };
+            };
+            balance = 2 : nat;
+        };
+        record {
+            account = record {
+                owner = principal "aaaaa-aa";
+                subaccount = opt vec { 0 : nat8; 0 : nat8; 0 : nat8; 2 : nat8 };
+            };
+            balance = 3 : nat;
+        };
+        record {
+            account = record {
+                owner = principal "aaaaa-aa";
+                subaccount = opt vec { 0 : nat8; 0 : nat8; 0 : nat8; 3 : nat8 };
+            };
+            balance = 4 : nat;
+        };
+    };
+    metadata = vec {};
+    minting_account = null;
+    name = "Azle";
+    supported_standards = vec {};
+    symbol = "AZLE";
+}
