@@ -1,12 +1,10 @@
-import { get_account_keys } from './account';
+import { balance_of } from './account';
 import { nat, nat8, Opt, Query } from 'azle';
 import { state } from './state';
 import { Account, Metadatum, SupportedStandard } from './types';
 
 export function icrc1_balance_of(account: Account): Query<nat> {
-    const { owner_key, subaccount_key } = get_account_keys(account);
-
-    return state.accounts?.[owner_key]?.[subaccount_key] ?? 0n;
+    return balance_of(account);
 }
 
 export function icrc1_decimals(): Query<nat8> {

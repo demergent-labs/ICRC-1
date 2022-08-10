@@ -48,9 +48,24 @@ export type State = {
     supported_standards: SupportedStandard[];
     symbol: string;
     total_supply: nat;
+    transactions: Transaction[]; // TODO consider this data structure, perhaps a map with tx ids would be better
 };
 
 export type Subaccount = blob;
+
+export type Transaction = {
+    args: TransferArgs;
+    fee: nat;
+    from: Account;
+    kind: TransactionKind;
+    timestamp: nat64;
+};
+
+export type TransactionKind = Variant<{
+    Burn: null;
+    Mint: null;
+    Transfer: null;
+}>;
 
 export type TransferArgs = {
     amount: nat;

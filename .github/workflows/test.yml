@@ -13,7 +13,7 @@ jobs:
               with:
                   node-version: 18
             - run: DFX_VERSION=0.11.0 sh -ci "$(curl -fsSL https://sdk.dfinity.org/install.sh)"
-            - name: Install Rust ${{ matrix.rust }}
+            - name: Install Rust
               uses: actions-rs/toolchain@v1
               with:
                   toolchain: stable

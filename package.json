@@ -23,10 +23,12 @@
     },
     "devDependencies": {
         "@dfinity/agent": "0.12.2",
+        "@dfinity/identity": "0.12.2",
         "eslint": "8.21.0",
         "eslint-config-prettier": "8.5.0",
         "husky": "8.0.1",
         "lint-staged": "13.0.3",
+        "pem-file": "1.0.1",
         "prettier": "2.7.1"
     },
     "lint-staged": {

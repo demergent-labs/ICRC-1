@@ -39,3 +39,9 @@ export function subaccount_to_nat32(subaccount: Opt<Subaccount>): nat32 {
 
     return subaccount_number;
 }
+
+export function balance_of(account: Account): nat {
+    const { owner_key, subaccount_key } = get_account_keys(account);
+
+    return state.accounts?.[owner_key]?.[subaccount_key] ?? 0n;
+}
