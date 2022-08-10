@@ -27,6 +27,7 @@ jobs:
             #       path: target
             #       key: icrc_1_cache_${{ hashFiles('target/azle/Cargo.lock') }}
             #       # restore-keys: multisig_vault-cache # TODO might need to be more intelligent and hash files here
+
             - uses: actions/cache@v3
               with:
                   path: |
