@@ -25,26 +25,26 @@ export function icrc1_transfer(args: TransferArgs): Update<TransferResult> {
         };
     }
 
-    const to_balance = balance_of(args.to);
-
     const transaction: Transaction = {
         args,
-        fee: state.fee,
+        fee: args.fee ?? state.fee,
         from,
         kind: {
-            Transfer: null
+            Transfer: null // TODO change based on minting account
         },
         timestamp: ic.time()
     };
 
-    set_account_balance(from, from_balance - args.amount);
-    set_account_balance(args.to, to_balance + args.amount);
+    set_account_balance(from, balance_of(from) - args.amount);
+    set_account_balance(args.to, balance_of(args.to) + args.amount);
 
     state.transactions.push(transaction);
 
-    return {
+    const transfer_result: TransferResult = {
         Ok: args.amount
     };
+
+    return transfer_result;
 }
 
 function validate_transfer(): boolean {

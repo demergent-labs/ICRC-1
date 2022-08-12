@@ -9,5 +9,6 @@ export let state: State = {
     name: '',
     supported_standards: [],
     symbol: '',
-    total_supply: 0n
+    total_supply: 0n,
+    transactions: []
 };

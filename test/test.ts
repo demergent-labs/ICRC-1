@@ -1,6 +1,7 @@
 import { Principal } from '@dfinity/principal';
 import { run_tests, Test } from 'azle/test';
 import { createActor } from './dfx_generated/icrc_1';
+import { get_identity } from './identities';
 
 const icrc_1_canister = createActor('rrkah-fqaaa-aaaaa-aaaaq-cai', {
     agentOptions: {
@@ -20,7 +21,7 @@ const tests: Test[] = [
             });
 
             return {
-                ok: result === 1n
+                ok: result === 100_000_000n
             };
         }
     },
@@ -35,37 +36,37 @@ const tests: Test[] = [
             });
 
             return {
-                ok: result === 2n
+                ok: result === 200_000_000n
             };
         }
     },
     {
-        name: 'icrc1_balance_of jkpmw-aav35-wxvb3-lanyp-62lqw-fmtwc-cvqc3-jcn7p-6jtrt-x7csr-rae.2',
+        name: 'icrc1_balance_of jm5gm-r5btc-kor5h-mkrva-sbubi-z2krh-3flug-4xr2v-bnkhf-w23cq-dae.0',
         test: async () => {
             const result = await icrc_1_canister.icrc1_balance_of({
                 owner: Principal.fromText(
-                    'jkpmw-aav35-wxvb3-lanyp-62lqw-fmtwc-cvqc3-jcn7p-6jtrt-x7csr-rae'
+                    'jm5gm-r5btc-kor5h-mkrva-sbubi-z2krh-3flug-4xr2v-bnkhf-w23cq-dae'
                 ),
-                subaccount: [[0, 0, 0, 2]]
+                subaccount: []
             });
 
             return {
-                ok: result === 3n
+                ok: result === 300_000_000n
             };
         }
     },
     {
-        name: 'icrc1_balance_of jkpmw-aav35-wxvb3-lanyp-62lqw-fmtwc-cvqc3-jcn7p-6jtrt-x7csr-rae.3',
+        name: 'icrc1_balance_of jm5gm-r5btc-kor5h-mkrva-sbubi-z2krh-3flug-4xr2v-bnkhf-w23cq-dae.1',
         test: async () => {
             const result = await icrc_1_canister.icrc1_balance_of({
                 owner: Principal.fromText(
-                    'jkpmw-aav35-wxvb3-lanyp-62lqw-fmtwc-cvqc3-jcn7p-6jtrt-x7csr-rae'
+                    'jm5gm-r5btc-kor5h-mkrva-sbubi-z2krh-3flug-4xr2v-bnkhf-w23cq-dae'
                 ),
-                subaccount: [[0, 0, 0, 3]]
+                subaccount: [[0, 0, 0, 1]]
             });
 
             return {
-                ok: result === 4n
+                ok: result === 400_000_000n
             };
         }
     },
@@ -164,11 +165,258 @@ const tests: Test[] = [
             const result = await icrc_1_canister.icrc1_total_supply();
 
             return {
-                ok: result === 0n
+                ok: result === 1_000_000_000n
+            };
+        }
+    },
+    {
+        name: 'icrc1_transfer test_identity_0.0 to test_identity_0.0',
+        test: async () => {
+            const succeeded = await test_transfer(
+                'test_identity_0',
+                [0, 0, 0, 0],
+                'test_identity_0',
+                [0, 0, 0, 0]
+            );
+
+            return {
+                ok: succeeded
+            };
+        }
+    },
+    {
+        name: 'icrc1_transfer test_identity_0.1 to test_identity_0.1',
+        test: async () => {
+            const succeeded = await test_transfer(
+                'test_identity_0',
+                [0, 0, 0, 1],
+                'test_identity_0',
+                [0, 0, 0, 1]
+            );
+
+            return {
+                ok: succeeded
+            };
+        }
+    },
+    {
+        name: 'icrc1_transfer test_identity_1.0 to test_identity_1.0',
+        test: async () => {
+            const succeeded = await test_transfer(
+                'test_identity_1',
+                [0, 0, 0, 0],
+                'test_identity_1',
+                [0, 0, 0, 0]
+            );
+
+            return {
+                ok: succeeded
+            };
+        }
+    },
+    {
+        name: 'icrc1_transfer test_identity_1.1 to test_identity_1.1',
+        test: async () => {
+            const succeeded = await test_transfer(
+                'test_identity_1',
+                [0, 0, 0, 1],
+                'test_identity_1',
+                [0, 0, 0, 1]
+            );
+
+            return {
+                ok: succeeded
+            };
+        }
+    },
+    {
+        name: 'icrc1_transfer test_identity_0.0 to test_identity_0.1',
+        test: async () => {
+            const succeeded = await test_transfer(
+                'test_identity_0',
+                [0, 0, 0, 0],
+                'test_identity_0',
+                [0, 0, 0, 1]
+            );
+
+            return {
+                ok: succeeded
+            };
+        }
+    },
+    {
+        name: 'icrc1_transfer test_identity_0.1 to test_identity_0.0',
+        test: async () => {
+            const succeeded = await test_transfer(
+                'test_identity_0',
+                [0, 0, 0, 1],
+                'test_identity_0',
+                [0, 0, 0, 0]
+            );
+
+            return {
+                ok: succeeded
+            };
+        }
+    },
+    {
+        name: 'icrc1_transfer test_identity_0.0 to test_identity_1.0',
+        test: async () => {
+            const succeeded = await test_transfer(
+                'test_identity_0',
+                [0, 0, 0, 0],
+                'test_identity_1',
+                [0, 0, 0, 0]
+            );
+
+            return {
+                ok: succeeded
+            };
+        }
+    },
+    {
+        name: 'icrc1_transfer test_identity_0.1 to test_identity_1.1',
+        test: async () => {
+            const succeeded = await test_transfer(
+                'test_identity_0',
+                [0, 0, 0, 1],
+                'test_identity_1',
+                [0, 0, 0, 1]
+            );
+
+            return {
+                ok: succeeded
             };
         }
     }
-    // TODO let's do some basic transfer tests from one identity to another, test identity 0 to test identity 1 or something like that
 ];
 
 run_tests(tests);
+
+async function test_transfer(
+    identity_a_name: string,
+    identity_a_subaccount: number[],
+    identity_b_name: string,
+    identity_b_subaccount: number[]
+): Promise<boolean> {
+    const identity_a = get_identity(identity_a_name);
+    const identity_b = get_identity(identity_b_name);
+
+    const icrc_1_canister_identity_a = createActor(
+        'rrkah-fqaaa-aaaaa-aaaaq-cai',
+        {
+            agentOptions: {
+                host: 'http://127.0.0.1:8000',
+                identity: identity_a
+            }
+        }
+    );
+
+    const icrc_1_canister_identity_b = createActor(
+        'rrkah-fqaaa-aaaaa-aaaaq-cai',
+        {
+            agentOptions: {
+                host: 'http://127.0.0.1:8000',
+                identity: identity_b
+            }
+        }
+    );
+
+    const identity_a_balance_before_transfer_a =
+        await icrc_1_canister_identity_a.icrc1_balance_of({
+            owner: identity_a.getPrincipal(),
+            subaccount: [identity_a_subaccount]
+        });
+
+    const identity_b_balance_before_transfer_a =
+        await icrc_1_canister_identity_b.icrc1_balance_of({
+            owner: identity_b.getPrincipal(),
+            subaccount: [identity_b_subaccount]
+        });
+
+    const transfer_result_a = await icrc_1_canister_identity_a.icrc1_transfer({
+        amount: identity_a_balance_before_transfer_a,
+        created_at_time: [],
+        fee: [],
+        from_subaccount: [identity_a_subaccount],
+        memo: [],
+        to: {
+            owner: identity_b.getPrincipal(),
+            subaccount: [identity_b_subaccount]
+        }
+    });
+
+    const identity_a_balance_after_transfer_a =
+        await icrc_1_canister_identity_a.icrc1_balance_of({
+            owner: identity_a.getPrincipal(),
+            subaccount: [identity_a_subaccount]
+        });
+
+    const identity_b_balance_after_transfer_a =
+        await icrc_1_canister_identity_b.icrc1_balance_of({
+            owner: identity_b.getPrincipal(),
+            subaccount: [identity_b_subaccount]
+        });
+
+    const transfer_result_b = await icrc_1_canister_identity_b.icrc1_transfer({
+        amount: identity_a_balance_before_transfer_a,
+        created_at_time: [],
+        fee: [],
+        from_subaccount: [identity_b_subaccount],
+        memo: [],
+        to: {
+            owner: identity_a.getPrincipal(),
+            subaccount: [identity_a_subaccount]
+        }
+    });
+
+    const identity_a_balance_after_transfer_b =
+        await icrc_1_canister_identity_a.icrc1_balance_of({
+            owner: identity_a.getPrincipal(),
+            subaccount: [identity_a_subaccount]
+        });
+
+    const identity_b_balance_after_transfer_b =
+        await icrc_1_canister_identity_b.icrc1_balance_of({
+            owner: identity_b.getPrincipal(),
+            subaccount: [identity_b_subaccount]
+        });
+
+    if (
+        identity_a_name === identity_b_name &&
+        identity_a_subaccount.length === identity_b_subaccount.length &&
+        identity_a_subaccount.every(
+            (a, index) => a === identity_b_subaccount[index]
+        )
+    ) {
+        return (
+            'Ok' in transfer_result_a &&
+            transfer_result_a.Ok === identity_a_balance_before_transfer_a &&
+            identity_a_balance_after_transfer_a ===
+                identity_a_balance_before_transfer_a &&
+            identity_b_balance_after_transfer_a ===
+                identity_b_balance_before_transfer_a &&
+            'Ok' in transfer_result_b &&
+            transfer_result_b.Ok === identity_a_balance_before_transfer_a &&
+            identity_a_balance_after_transfer_b ===
+                identity_a_balance_before_transfer_a &&
+            identity_b_balance_after_transfer_b ===
+                identity_b_balance_before_transfer_a
+        );
+    } else {
+        return (
+            'Ok' in transfer_result_a &&
+            transfer_result_a.Ok === identity_a_balance_before_transfer_a &&
+            identity_a_balance_after_transfer_a === 0n &&
+            identity_b_balance_after_transfer_a ===
+                identity_a_balance_before_transfer_a +
+                    identity_b_balance_before_transfer_a &&
+            'Ok' in transfer_result_b &&
+            transfer_result_b.Ok === identity_a_balance_before_transfer_a &&
+            identity_a_balance_after_transfer_b ===
+                identity_a_balance_before_transfer_a &&
+            identity_b_balance_after_transfer_b ===
+                identity_b_balance_before_transfer_a
+        );
+    }
+}
