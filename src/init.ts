@@ -1,7 +1,8 @@
 import { set_account_balance } from './account';
-import { Init } from 'azle';
+import { ic, Init } from 'azle';
 import { state } from './state';
-import { InitArgs } from './types';
+import { InitArgs, Transaction, TransactionKind, TransferArgs } from './types';
+import { get_fee } from './transfer';
 
 export function init(args: InitArgs): Init {
     state.decimals = args.decimals;
@@ -25,20 +26,38 @@ export function init(args: InitArgs): Init {
         ...args.metadata
     ];
 
-    // TODO perhaps we should create a transaction for each of these
-    args.initial_account_balances.forEach((initial_account_balance) =>
+    args.initial_account_balances.forEach((initial_account_balance) => {
+        const args: TransferArgs = {
+            amount: initial_account_balance.balance,
+            created_at_time: null,
+            fee: null,
+            from_subaccount: null,
+            memo: null,
+            to: initial_account_balance.account
+        };
+
+        const kind: TransactionKind = {
+            Mint: null
+        };
+
+        const fee = get_fee(state, args, kind);
+
         set_account_balance(
             initial_account_balance.account,
-            initial_account_balance.balance
-        )
-    );
+            initial_account_balance.balance - fee
+        );
 
-    const total_initial_account_balance = args.initial_account_balances.reduce(
-        (result, initial_account_balance) => {
-            return result + initial_account_balance.balance;
-        },
-        0n
-    );
+        state.total_supply += initial_account_balance.balance;
+        state.total_supply -= fee;
 
-    state.total_supply = total_initial_account_balance;
+        const transaction: Transaction = {
+            args,
+            fee,
+            from: state.minting_account,
+            kind,
+            timestamp: ic.time()
+        };
+
+        state.transactions.push(transaction);
+    });
 }

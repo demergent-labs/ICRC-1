@@ -1,4 +1,5 @@
 .dfx
+*.did
 .DS_Store
 dist
 .husky

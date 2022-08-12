@@ -1,3 +1,11 @@
+type Transaction = record {
+    "args": opt TransferArgs;
+    "fee": nat;
+    "from": opt Account;
+    "kind": TransactionKind;
+    "timestamp": nat64;
+};
+
 type Account = record {
     "owner": principal;
     "subaccount": opt blob;
@@ -39,9 +47,12 @@ type TransferResult = variant { "Ok": nat; "Err": TransferError };
 
 type TransferError = variant { "BadBurn": record { "min_burn_amount": nat; }; "BadFee": record { "expected_fee": nat; }; "CreatedInFuture": record { "ledger_time": nat64; }; "Duplicate": record { "duplicate_of": nat; }; "GenericError": record { "error_code": nat; "message": text; }; "InsufficientFunds": record { "balance": nat; }; "TemporarilyUnavailable": null; "TooOld": null };
 
+type TransactionKind = variant { "Burn": null; "Mint": null; "Transfer": null };
+
 type Value = variant { "Blob": blob; "Int": int; "Nat": nat; "Text": text };
 
 service: (InitArgs) -> {
+    "get_transactions": (opt nat64, opt nat64) -> (vec Transaction) query;
     "icrc1_balance_of": (Account) -> (nat) query;
     "icrc1_decimals": () -> (nat8) query;
     "icrc1_fee": () -> (nat) query;

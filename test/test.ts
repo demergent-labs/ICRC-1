@@ -1,3 +1,6 @@
+// TODO test minting, test burning, test tx fees
+// TODO make these tests declarative
+
 import { Principal } from '@dfinity/principal';
 import { run_tests, Test } from 'azle/test';
 import { createActor } from './dfx_generated/icrc_1';

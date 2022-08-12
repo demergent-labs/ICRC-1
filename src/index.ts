@@ -1,4 +1,5 @@
 export {
+    get_transactions,
     icrc1_balance_of,
     icrc1_decimals,
     icrc1_fee,

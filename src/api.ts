@@ -1,7 +1,17 @@
 import { balance_of } from './account';
-import { nat, nat8, Opt, Query } from 'azle';
+import { nat, nat8, nat64, Opt, Query } from 'azle';
 import { state } from './state';
-import { Account, Metadatum, SupportedStandard } from './types';
+import { Account, Metadatum, SupportedStandard, Transaction } from './types';
+
+export function get_transactions(
+    start: Opt<nat64>,
+    end: Opt<nat64>
+): Query<Transaction[]> {
+    return state.transactions.slice(
+        start === null ? 0 : Number(start),
+        end === null ? state.transactions.length : Number(end)
+    );
+}
 
 export function icrc1_balance_of(account: Account): Query<nat> {
     return balance_of(account);

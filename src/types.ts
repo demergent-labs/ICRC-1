@@ -54,9 +54,9 @@ export type State = {
 export type Subaccount = blob;
 
 export type Transaction = {
-    args: TransferArgs;
+    args: Opt<TransferArgs>;
     fee: nat;
-    from: Account;
+    from: Opt<Account>;
     kind: TransactionKind;
     timestamp: nat64;
 };
