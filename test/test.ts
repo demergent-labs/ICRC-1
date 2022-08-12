@@ -339,7 +339,7 @@ async function test_transfer(
 
     const transfer_result_a = await icrc_1_canister_identity_a.icrc1_transfer({
         amount: identity_a_balance_before_transfer_a,
-        created_at_time: [],
+        created_at_time: [BigInt(new Date().getTime() * 1_000_000)],
         fee: [],
         from_subaccount: [identity_a_subaccount],
         memo: [],
@@ -348,6 +348,8 @@ async function test_transfer(
             subaccount: [identity_b_subaccount]
         }
     });
+
+    console.log('transfer_result_a', transfer_result_a);
 
     const identity_a_balance_after_transfer_a =
         await icrc_1_canister_identity_a.icrc1_balance_of({
@@ -363,7 +365,7 @@ async function test_transfer(
 
     const transfer_result_b = await icrc_1_canister_identity_b.icrc1_transfer({
         amount: identity_a_balance_before_transfer_a,
-        created_at_time: [],
+        created_at_time: [BigInt(new Date().getTime() * 1_000_000)],
         fee: [],
         from_subaccount: [identity_b_subaccount],
         memo: [],
@@ -372,6 +374,8 @@ async function test_transfer(
             subaccount: [identity_a_subaccount]
         }
     });
+
+    console.log('transfer_result_b', transfer_result_b);
 
     const identity_a_balance_after_transfer_b =
         await icrc_1_canister_identity_a.icrc1_balance_of({

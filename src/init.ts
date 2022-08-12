@@ -2,13 +2,12 @@ import { set_account_balance } from './account';
 import { ic, Init } from 'azle';
 import { state } from './state';
 import { InitArgs, Transaction, TransactionKind, TransferArgs } from './types';
-import { get_fee } from './transfer';
 
 export function init(args: InitArgs): Init {
     state.decimals = args.decimals;
     state.fee = args.fee;
     state.name = args.name;
-    state.minting_account = args.minting_account;
+    state.minting_account = args.minting_account; // TODO test this, and validate the subaccount
     state.supported_standards = [
         {
             name: 'ICRC-1',
@@ -27,6 +26,7 @@ export function init(args: InitArgs): Init {
     ];
 
     args.initial_account_balances.forEach((initial_account_balance) => {
+        // TODO ran some necessary validation here, subaccounts and such
         const args: TransferArgs = {
             amount: initial_account_balance.balance,
             created_at_time: null,
@@ -36,11 +36,7 @@ export function init(args: InitArgs): Init {
             to: initial_account_balance.account
         };
 
-        const kind: TransactionKind = {
-            Mint: null
-        };
-
-        const fee = get_fee(state, args, kind);
+        const fee = 0n;
 
         set_account_balance(
             initial_account_balance.account,
@@ -48,13 +44,14 @@ export function init(args: InitArgs): Init {
         );
 
         state.total_supply += initial_account_balance.balance;
-        state.total_supply -= fee;
 
         const transaction: Transaction = {
             args,
             fee,
             from: state.minting_account,
-            kind,
+            kind: {
+                Mint: null
+            },
             timestamp: ic.time()
         };
 
