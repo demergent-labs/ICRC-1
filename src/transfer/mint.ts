@@ -1,25 +1,24 @@
+import { balance_of, set_account_balance } from '../account';
 import { ic, Principal } from 'azle';
 import { state } from '../state';
 import {
     Account,
     Transaction,
-    TransactionKind,
     TransferArgs,
     TransferResult
 } from '../types';
 
 export function handle_mint(args: TransferArgs, from: Account): TransferResult {
-    const kind: TransactionKind = {
-        Mint: null
-    };
-
+    set_account_balance(args.to, balance_of(args.to) + args.amount);
     state.total_supply += args.amount;
 
     const transaction: Transaction = {
         args,
         fee: 0n,
         from,
-        kind,
+        kind: {
+            Mint: null
+        },
         timestamp: ic.time()
     };
 

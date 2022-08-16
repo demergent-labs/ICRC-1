@@ -7,7 +7,7 @@ export function init(args: InitArgs): Init {
     state.decimals = args.decimals;
     state.fee = args.fee;
     state.name = args.name;
-    state.minting_account = args.minting_account; // TODO test this, and validate the subaccount
+    state.minting_account = args.minting_account;
     state.permitted_drift_nanos =
         args.permitted_drift_nanos ?? state.permitted_drift_nanos;
     state.supported_standards = [

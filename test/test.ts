@@ -1,4 +1,4 @@
-// TODO test minting, test burning, test tx fees
+// TODO test tx fees
 // TODO make these tests declarative
 
 import { Principal } from '@dfinity/principal';
@@ -14,36 +14,6 @@ const icrc_1_canister = createActor('rrkah-fqaaa-aaaaa-aaaaq-cai', {
 
 const tests: Test[] = [
     {
-        name: 'icrc1_balance_of jkpmw-aav35-wxvb3-lanyp-62lqw-fmtwc-cvqc3-jcn7p-6jtrt-x7csr-rae.0',
-        test: async () => {
-            const result = await icrc_1_canister.icrc1_balance_of({
-                owner: Principal.fromText(
-                    'jkpmw-aav35-wxvb3-lanyp-62lqw-fmtwc-cvqc3-jcn7p-6jtrt-x7csr-rae'
-                ),
-                subaccount: []
-            });
-
-            return {
-                ok: result === 100_000_000n
-            };
-        }
-    },
-    {
-        name: 'icrc1_balance_of jkpmw-aav35-wxvb3-lanyp-62lqw-fmtwc-cvqc3-jcn7p-6jtrt-x7csr-rae.1',
-        test: async () => {
-            const result = await icrc_1_canister.icrc1_balance_of({
-                owner: Principal.fromText(
-                    'jkpmw-aav35-wxvb3-lanyp-62lqw-fmtwc-cvqc3-jcn7p-6jtrt-x7csr-rae'
-                ),
-                subaccount: [[0, 0, 0, 1]]
-            });
-
-            return {
-                ok: result === 200_000_000n
-            };
-        }
-    },
-    {
         name: 'icrc1_balance_of jm5gm-r5btc-kor5h-mkrva-sbubi-z2krh-3flug-4xr2v-bnkhf-w23cq-dae.0',
         test: async () => {
             const result = await icrc_1_canister.icrc1_balance_of({
@@ -54,7 +24,7 @@ const tests: Test[] = [
             });
 
             return {
-                ok: result === 300_000_000n
+                ok: result === 100_000_000n
             };
         }
     },
@@ -64,6 +34,36 @@ const tests: Test[] = [
             const result = await icrc_1_canister.icrc1_balance_of({
                 owner: Principal.fromText(
                     'jm5gm-r5btc-kor5h-mkrva-sbubi-z2krh-3flug-4xr2v-bnkhf-w23cq-dae'
+                ),
+                subaccount: [[0, 0, 0, 1]]
+            });
+
+            return {
+                ok: result === 200_000_000n
+            };
+        }
+    },
+    {
+        name: 'icrc1_balance_of 5g453-ogeid-pywgl-dn7nj-aiq5z-xohmn-4kbna-lyyot-ry5cp-5wcw4-kae.0',
+        test: async () => {
+            const result = await icrc_1_canister.icrc1_balance_of({
+                owner: Principal.fromText(
+                    '5g453-ogeid-pywgl-dn7nj-aiq5z-xohmn-4kbna-lyyot-ry5cp-5wcw4-kae'
+                ),
+                subaccount: []
+            });
+
+            return {
+                ok: result === 300_000_000n
+            };
+        }
+    },
+    {
+        name: 'icrc1_balance_of 5g453-ogeid-pywgl-dn7nj-aiq5z-xohmn-4kbna-lyyot-ry5cp-5wcw4-kae.1',
+        test: async () => {
+            const result = await icrc_1_canister.icrc1_balance_of({
+                owner: Principal.fromText(
+                    '5g453-ogeid-pywgl-dn7nj-aiq5z-xohmn-4kbna-lyyot-ry5cp-5wcw4-kae'
                 ),
                 subaccount: [[0, 0, 0, 1]]
             });
@@ -126,7 +126,10 @@ const tests: Test[] = [
             const result = await icrc_1_canister.icrc1_minting_account();
 
             return {
-                ok: result.length === 0
+                ok:
+                    result.length === 1 &&
+                    result[0].owner.toText() ===
+                        'jkpmw-aav35-wxvb3-lanyp-62lqw-fmtwc-cvqc3-jcn7p-6jtrt-x7csr-rae'
             };
         }
     },
@@ -169,6 +172,160 @@ const tests: Test[] = [
 
             return {
                 ok: result === 1_000_000_000n
+            };
+        }
+    },
+    {
+        name: 'mint',
+        test: async () => {
+            const minting_identity = get_identity('test_identity_0');
+
+            const icrc_1_canister_minting_identity = createActor(
+                'rrkah-fqaaa-aaaaa-aaaaq-cai',
+                {
+                    agentOptions: {
+                        host: 'http://127.0.0.1:8000',
+                        identity: minting_identity
+                    }
+                }
+            );
+
+            const total_supply_result_before =
+                await icrc_1_canister.icrc1_total_supply();
+
+            console.log(
+                'total_supply_result_before',
+                total_supply_result_before
+            );
+
+            const balance_result_before =
+                await icrc_1_canister.icrc1_balance_of({
+                    owner: Principal.fromText(
+                        'jm5gm-r5btc-kor5h-mkrva-sbubi-z2krh-3flug-4xr2v-bnkhf-w23cq-dae'
+                    ),
+                    subaccount: []
+                });
+
+            console.log('balance_result_before', balance_result_before);
+
+            const mint_result =
+                await icrc_1_canister_minting_identity.icrc1_transfer({
+                    amount: 100_000_000n,
+                    created_at_time: [],
+                    fee: [],
+                    from_subaccount: [],
+                    memo: [],
+                    to: {
+                        owner: Principal.fromText(
+                            'jm5gm-r5btc-kor5h-mkrva-sbubi-z2krh-3flug-4xr2v-bnkhf-w23cq-dae'
+                        ),
+                        subaccount: []
+                    }
+                });
+
+            console.log('mint_result', stringify(mint_result));
+
+            const total_supply_result_after =
+                await icrc_1_canister.icrc1_total_supply();
+
+            console.log('total_supply_result_after', total_supply_result_after);
+
+            const balance_result_after = await icrc_1_canister.icrc1_balance_of(
+                {
+                    owner: Principal.fromText(
+                        'jm5gm-r5btc-kor5h-mkrva-sbubi-z2krh-3flug-4xr2v-bnkhf-w23cq-dae'
+                    ),
+                    subaccount: []
+                }
+            );
+
+            console.log('balance_result_after', balance_result_after);
+
+            return {
+                ok:
+                    'Ok' in mint_result &&
+                    mint_result.Ok === 100_000_000n &&
+                    total_supply_result_before + 100_000_000n ===
+                        total_supply_result_after &&
+                    balance_result_before + 100_000_000n ===
+                        balance_result_after
+            };
+        }
+    },
+    {
+        name: 'burn',
+        test: async () => {
+            const test_identity_1 = get_identity('test_identity_1');
+
+            const icrc_1_canister_test_identity_1 = createActor(
+                'rrkah-fqaaa-aaaaa-aaaaq-cai',
+                {
+                    agentOptions: {
+                        host: 'http://127.0.0.1:8000',
+                        identity: test_identity_1
+                    }
+                }
+            );
+
+            const total_supply_result_before =
+                await icrc_1_canister.icrc1_total_supply();
+
+            console.log(
+                'total_supply_result_before',
+                total_supply_result_before
+            );
+
+            const balance_result_before =
+                await icrc_1_canister.icrc1_balance_of({
+                    owner: Principal.fromText(
+                        'jm5gm-r5btc-kor5h-mkrva-sbubi-z2krh-3flug-4xr2v-bnkhf-w23cq-dae'
+                    ),
+                    subaccount: []
+                });
+
+            console.log('balance_result_before', balance_result_before);
+
+            const burn_result =
+                await icrc_1_canister_test_identity_1.icrc1_transfer({
+                    amount: 100_000_000n,
+                    created_at_time: [],
+                    fee: [],
+                    from_subaccount: [],
+                    memo: [],
+                    to: {
+                        owner: Principal.fromText(
+                            'jkpmw-aav35-wxvb3-lanyp-62lqw-fmtwc-cvqc3-jcn7p-6jtrt-x7csr-rae'
+                        ),
+                        subaccount: []
+                    }
+                });
+
+            console.log('burn_result', stringify(burn_result));
+
+            const total_supply_result_after =
+                await icrc_1_canister.icrc1_total_supply();
+
+            console.log('total_supply_result_after', total_supply_result_after);
+
+            const balance_result_after = await icrc_1_canister.icrc1_balance_of(
+                {
+                    owner: Principal.fromText(
+                        'jm5gm-r5btc-kor5h-mkrva-sbubi-z2krh-3flug-4xr2v-bnkhf-w23cq-dae'
+                    ),
+                    subaccount: []
+                }
+            );
+
+            console.log('balance_result_after', balance_result_after);
+
+            return {
+                ok:
+                    'Ok' in burn_result &&
+                    burn_result.Ok === 100_000_000n &&
+                    total_supply_result_before - 100_000_000n ===
+                        total_supply_result_after &&
+                    balance_result_before - 100_000_000n ===
+                        balance_result_after
             };
         }
     },
@@ -426,4 +583,10 @@ async function test_transfer(
                 identity_b_balance_before_transfer_a
         );
     }
+}
+
+function stringify(value: any): string {
+    return JSON.stringify(value, (_, value) =>
+        typeof value === 'bigint' ? value.toString() : value
+    );
 }

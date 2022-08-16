@@ -105,7 +105,7 @@ export function validate_transfer(
 
     const from_is_minting_account = is_minting_account(from.owner);
 
-    if (from_is_minting_account === true && args.fee !== 0n) {
+    if (from_is_minting_account === true && (args.fee ?? 0n) !== 0n) {
         return {
             err: {
                 BadFee: {
@@ -118,7 +118,7 @@ export function validate_transfer(
     const to_is_minting_account = is_minting_account(args.to.owner);
 
     if (to_is_minting_account === true) {
-        if (args.fee !== 0n) {
+        if ((args.fee ?? 0n) !== 0n) {
             return {
                 err: {
                     BadFee: {
@@ -153,7 +153,10 @@ export function validate_transfer(
 
     const from_balance = balance_of(from);
 
-    if (from_balance < args.amount) {
+    if (
+        from_is_minting_account === false &&
+        from_balance < args.amount
+    ) {
         return {
             err: {
                 InsufficientFunds: {
