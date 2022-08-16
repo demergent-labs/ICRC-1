@@ -2,7 +2,7 @@ CAUTION: This project is built with Azle Beta and inherits its [disclaimer](http
 
 # ICRC-1
 
-Prototype implementation of the [ICRC-1 standard](https://github.com/dfinity/ICRC-1) in TypeScript.
+Reference implementation of the [ICRC-1 standard](https://github.com/dfinity/ICRC-1) in TypeScript.
 
 ## Installation
 
