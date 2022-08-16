@@ -155,7 +155,7 @@ export function validate_transfer(
 
     if (
         from_is_minting_account === false &&
-        from_balance < args.amount
+        from_balance < args.amount + state.fee
     ) {
         return {
             err: {
@@ -175,7 +175,7 @@ function is_anonymous(principal: Principal): boolean {
     return principal.toText() === '2vxsx-fae';
 }
 
-function is_subaccount_valid(subaccount: Opt<Subaccount>): boolean {
+export function is_subaccount_valid(subaccount: Opt<Subaccount>): boolean {
     return subaccount === null || subaccount.length === 4;
 }
 
@@ -236,7 +236,7 @@ function find_duplicate_transaction_index(
     return null;
 }
 
-function stringify(value: any): string {
+export function stringify(value: any): string {
     return JSON.stringify(value, (_, value) =>
         typeof value === 'bigint' ? value.toString() : value
     );

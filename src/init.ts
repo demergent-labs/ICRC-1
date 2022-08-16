@@ -1,12 +1,21 @@
-import { set_account_balance } from './account';
 import { ic, Init } from 'azle';
 import { state } from './state';
-import { InitArgs, Transaction, TransferArgs } from './types';
+import { InitArgs, TransferArgs } from './types';
+import { is_subaccount_valid, stringify } from './transfer/validate';
+import { handle_mint } from './transfer/mint';
 
 export function init(args: InitArgs): Init {
     state.decimals = args.decimals;
     state.fee = args.fee;
     state.name = args.name;
+
+    if (
+        args.minting_account !== null &&
+        is_subaccount_valid(args.minting_account.subaccount) === false
+    ) {
+        ic.trap(`subaccount for minting account must be 32 bytes in length`);
+    }
+
     state.minting_account = args.minting_account;
     state.permitted_drift_nanos =
         args.permitted_drift_nanos ?? state.permitted_drift_nanos;
@@ -30,35 +39,28 @@ export function init(args: InitArgs): Init {
     ];
 
     args.initial_account_balances.forEach((initial_account_balance) => {
-        // TODO run some necessary validation here, subaccounts and such
+        if (
+            is_subaccount_valid(initial_account_balance.account.subaccount) ===
+            false
+        ) {
+            ic.trap(
+                `subaccount for initial account ${initial_account_balance.account.owner.toText()} must be 32 bytes in length`
+            );
+        }
+
         const args: TransferArgs = {
             amount: initial_account_balance.balance,
-            created_at_time: null,
+            created_at_time: ic.time(),
             fee: null,
             from_subaccount: null,
             memo: null,
             to: initial_account_balance.account
         };
 
-        const fee = 0n;
+        const mint_result = handle_mint(args, state.minting_account);
 
-        set_account_balance(
-            initial_account_balance.account,
-            initial_account_balance.balance - fee
-        );
-
-        state.total_supply += initial_account_balance.balance;
-
-        const transaction: Transaction = {
-            args,
-            fee,
-            from: state.minting_account,
-            kind: {
-                Mint: null
-            },
-            timestamp: ic.time()
-        };
-
-        state.transactions.push(transaction);
+        if ('Err' in mint_result) {
+            ic.trap(stringify(mint_result.Err));
+        }
     });
 }
