@@ -1,3 +1,7 @@
+<a href="https://github.com/demergent-labs/ICRC-1/actions/workflows/test.yml?query=branch%3Amain">
+    <img src="https://github.com/demergent-labs/ICRC-1/actions/workflows/test.yml/badge.svg" alt="Coverage Status">
+</a>
+
 CAUTION: This project is built with Azle Beta and inherits its [disclaimer](https://github.com/demergent-labs/azle#disclaimer). This project has not been audited or well tested.
 
 # ICRC-1
