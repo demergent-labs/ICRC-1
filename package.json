@@ -19,7 +19,7 @@
     },
     "homepage": "https://github.com/demergent-labs/ICRC-1#readme",
     "dependencies": {
-        "azle": "0.6.0"
+        "azle": "github:demergent-labs/azle#78b3f24d4fc49260a8902c806dbf85508f282194"
     },
     "devDependencies": {
         "@dfinity/agent": "0.12.2",

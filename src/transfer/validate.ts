@@ -91,7 +91,7 @@ export function validate_transfer(
         };
     }
 
-    const duplicate_transaction_index = find_duplicate_transaction_index(args);
+    const duplicate_transaction_index = find_duplicate_transaction_index(args, from);
 
     if (duplicate_transaction_index !== null) {
         return {
@@ -206,7 +206,8 @@ function is_created_at_time_too_old(created_at_time: Opt<nat64>): boolean {
 }
 
 function find_duplicate_transaction_index(
-    transfer_args: TransferArgs
+    transfer_args: TransferArgs,
+    from: Account
 ): Opt<nat> {
     const now = ic.time();
 
@@ -214,7 +215,13 @@ function find_duplicate_transaction_index(
         const transaction = state.transactions[i];
 
         if (
-            stringify(transfer_args) === stringify(transaction.args) &&
+            stringify({
+                ...transfer_args,
+                from
+            }) === stringify({
+                ...transaction.args,
+                from: transaction.from
+            }) &&
             transaction.timestamp < now + state.permitted_drift_nanos &&
             now - transaction.timestamp <
                 state.transaction_window_nanos + state.permitted_drift_nanos
