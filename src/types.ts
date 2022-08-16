@@ -12,8 +12,10 @@ export type InitArgs = {
     metadata: Metadatum[];
     minting_account: Opt<Account>;
     name: string;
+    permitted_drift_nanos: Opt<nat64>;
     supported_standards: SupportedStandard[];
     symbol: string;
+    transaction_window_nanos: Opt<nat64>;
 };
 
 export type InitialAccountBalance = {
@@ -45,10 +47,12 @@ export type State = {
     metadata: Metadatum[];
     minting_account: Opt<Account>;
     name: string;
+    permitted_drift_nanos: nat64;
     supported_standards: SupportedStandard[];
     symbol: string;
     total_supply: nat;
-    transactions: Transaction[]; // TODO consider this data structure, perhaps a map with tx ids would be better
+    transactions: Transaction[];
+    transaction_window_nanos: nat64;
 };
 
 export type Subaccount = blob;
@@ -90,6 +94,11 @@ export type TransferError = Variant<{
 export type TransferResult = Variant<{
     Ok: nat;
     Err: TransferError;
+}>;
+
+export type ValidateTransferResult = Variant<{
+    ok: boolean;
+    err: TransferError;
 }>;
 
 export type Value = Variant<{

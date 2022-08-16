@@ -1,13 +1,15 @@
 import { set_account_balance } from './account';
 import { ic, Init } from 'azle';
 import { state } from './state';
-import { InitArgs, Transaction, TransactionKind, TransferArgs } from './types';
+import { InitArgs, Transaction, TransferArgs } from './types';
 
 export function init(args: InitArgs): Init {
     state.decimals = args.decimals;
     state.fee = args.fee;
     state.name = args.name;
     state.minting_account = args.minting_account; // TODO test this, and validate the subaccount
+    state.permitted_drift_nanos =
+        args.permitted_drift_nanos ?? state.permitted_drift_nanos;
     state.supported_standards = [
         {
             name: 'ICRC-1',
@@ -16,6 +18,8 @@ export function init(args: InitArgs): Init {
         ...args.supported_standards
     ];
     state.symbol = args.symbol;
+    state.transaction_window_nanos =
+        args.transaction_window_nanos ?? state.transaction_window_nanos;
 
     state.metadata = [
         ['icrc1:decimals', { Nat: BigInt(state.decimals) }],
@@ -26,7 +30,7 @@ export function init(args: InitArgs): Init {
     ];
 
     args.initial_account_balances.forEach((initial_account_balance) => {
-        // TODO ran some necessary validation here, subaccounts and such
+        // TODO run some necessary validation here, subaccounts and such
         const args: TransferArgs = {
             amount: initial_account_balance.balance,
             created_at_time: null,

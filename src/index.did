@@ -34,8 +34,10 @@ type InitArgs = record {
     "metadata": vec Metadatum;
     "minting_account": opt Account;
     "name": text;
+    "permitted_drift_nanos": opt nat64;
     "supported_standards": vec SupportedStandard;
     "symbol": text;
+    "transaction_window_nanos": opt nat64;
 };
 
 type InitialAccountBalance = record {
