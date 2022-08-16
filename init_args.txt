@@ -4,35 +4,37 @@ record {
     initial_account_balances = vec {
         record {
             account = record {
-                owner = principal "aaaaa-aa";
+                owner = principal "jm5gm-r5btc-kor5h-mkrva-sbubi-z2krh-3flug-4xr2v-bnkhf-w23cq-dae";
                 subaccount = opt vec { 0 : nat8; 0 : nat8; 0 : nat8; 0 : nat8 };
             };
-            balance = 1 : nat;
+            balance = 100_000_000 : nat;
         };
         record {
             account = record {
-                owner = principal "aaaaa-aa";
+                owner = principal "jm5gm-r5btc-kor5h-mkrva-sbubi-z2krh-3flug-4xr2v-bnkhf-w23cq-dae";
                 subaccount = opt vec { 0 : nat8; 0 : nat8; 0 : nat8; 1 : nat8 };
             };
-            balance = 2 : nat;
+            balance = 200_000_000 : nat;
         };
         record {
             account = record {
-                owner = principal "aaaaa-aa";
-                subaccount = opt vec { 0 : nat8; 0 : nat8; 0 : nat8; 2 : nat8 };
+                owner = principal "5g453-ogeid-pywgl-dn7nj-aiq5z-xohmn-4kbna-lyyot-ry5cp-5wcw4-kae";
+                subaccount = opt vec { 0 : nat8; 0 : nat8; 0 : nat8; 0 : nat8 };
             };
-            balance = 3 : nat;
+            balance = 300_000_000 : nat;
         };
         record {
             account = record {
-                owner = principal "aaaaa-aa";
-                subaccount = opt vec { 0 : nat8; 0 : nat8; 0 : nat8; 3 : nat8 };
+                owner = principal "5g453-ogeid-pywgl-dn7nj-aiq5z-xohmn-4kbna-lyyot-ry5cp-5wcw4-kae";
+                subaccount = opt vec { 0 : nat8; 0 : nat8; 0 : nat8; 1 : nat8 };
             };
-            balance = 4 : nat;
+            balance = 400_000_000 : nat;
         };
     };
     metadata = vec {};
-    minting_account = null;
+    minting_account = record {
+        owner = principal "jkpmw-aav35-wxvb3-lanyp-62lqw-fmtwc-cvqc3-jcn7p-6jtrt-x7csr-rae";
+    };
     name = "Azle";
     supported_standards = vec {};
     symbol = "AZLE";

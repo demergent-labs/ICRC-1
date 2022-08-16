@@ -19,14 +19,16 @@
     },
     "homepage": "https://github.com/demergent-labs/ICRC-1#readme",
     "dependencies": {
-        "azle": "0.6.0"
+        "azle": "github:demergent-labs/azle#78b3f24d4fc49260a8902c806dbf85508f282194"
     },
     "devDependencies": {
         "@dfinity/agent": "0.12.2",
+        "@dfinity/identity": "0.12.2",
         "eslint": "8.21.0",
         "eslint-config-prettier": "8.5.0",
         "husky": "8.0.1",
         "lint-staged": "13.0.3",
+        "pem-file": "1.0.1",
         "prettier": "2.7.1"
     },
     "lint-staged": {

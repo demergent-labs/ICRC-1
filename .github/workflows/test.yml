@@ -13,20 +13,12 @@ jobs:
               with:
                   node-version: 18
             - run: DFX_VERSION=0.11.0 sh -ci "$(curl -fsSL https://sdk.dfinity.org/install.sh)"
-            - name: Install Rust ${{ matrix.rust }}
+            - name: Install Rust
               uses: actions-rs/toolchain@v1
               with:
                   toolchain: stable
                   profile: minimal
                   override: true
-            # - uses: Swatinem/rust-cache@v2 # TODO The Rust cache is not working at all
-            # - name: Rust cache # TODO I can't figure out how to actually get the cache to work
-            #   uses: actions/cache@v2
-            #   continue-on-error: false
-            #   with:
-            #       path: target
-            #       key: icrc_1_cache_${{ hashFiles('target/azle/Cargo.lock') }}
-            #       # restore-keys: multisig_vault-cache # TODO might need to be more intelligent and hash files here
             - uses: actions/cache@v3
               with:
                   path: |
@@ -35,7 +27,7 @@ jobs:
                       ~/.cargo/registry/cache/
                       ~/.cargo/git/db/
                       target/
-                  key: icrc-1-cargo-${{ hashFiles('**/Cargo.lock') }}
+                  key: icrc-1-cargo-${{ hashFiles('package-lock.json') }}
             - run: dfx start --clean --background
             - shell: bash -l {0}
               run: npm install
