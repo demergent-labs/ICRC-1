@@ -27,13 +27,6 @@ export type Metadatum = [string, Value];
 
 export type OwnerKey = string;
 
-export type SubaccountKey = string;
-
-export type SupportedStandard = {
-    name: string;
-    url: string;
-};
-
 export type State = {
     accounts: {
         [key: OwnerKey]:
@@ -56,6 +49,13 @@ export type State = {
 };
 
 export type Subaccount = blob;
+
+export type SubaccountKey = string;
+
+export type SupportedStandard = {
+    name: string;
+    url: string;
+};
 
 export type Transaction = {
     args: Opt<TransferArgs>;

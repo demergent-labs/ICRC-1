@@ -1,22 +1,19 @@
-import { ic, Init } from 'azle';
+import { ic, Init, Opt } from 'azle';
 import { state } from './state';
-import { InitArgs, TransferArgs } from './types';
-import { is_subaccount_valid, stringify } from './transfer/validate';
 import { handle_mint } from './transfer/mint';
+import { is_subaccount_valid, stringify } from './transfer/validate';
+import {
+    Account,
+    InitArgs,
+    InitialAccountBalance,
+    TransferArgs
+} from './types';
 
 export function init(args: InitArgs): Init {
     state.decimals = args.decimals;
     state.fee = args.fee;
     state.name = args.name;
-
-    if (
-        args.minting_account !== null &&
-        is_subaccount_valid(args.minting_account.subaccount) === false
-    ) {
-        ic.trap(`subaccount for minting account must be 32 bytes in length`);
-    }
-
-    state.minting_account = args.minting_account;
+    state.minting_account = validate_minting_account(args.minting_account);
     state.permitted_drift_nanos =
         args.permitted_drift_nanos ?? state.permitted_drift_nanos;
     state.supported_standards = [
@@ -29,7 +26,6 @@ export function init(args: InitArgs): Init {
     state.symbol = args.symbol;
     state.transaction_window_nanos =
         args.transaction_window_nanos ?? state.transaction_window_nanos;
-
     state.metadata = [
         ['icrc1:decimals', { Nat: BigInt(state.decimals) }],
         ['icrc1:fee', { Nat: state.fee }],
@@ -37,30 +33,44 @@ export function init(args: InitArgs): Init {
         ['icrc1:symbol', { Text: state.symbol }],
         ...args.metadata
     ];
+    args.initial_account_balances.forEach(initialize_account_balance);
+}
 
-    args.initial_account_balances.forEach((initial_account_balance) => {
-        if (
-            is_subaccount_valid(initial_account_balance.account.subaccount) ===
-            false
-        ) {
-            ic.trap(
-                `subaccount for initial account ${initial_account_balance.account.owner.toText()} must be 32 bytes in length`
-            );
-        }
+function validate_minting_account(minting_account: Opt<Account>): Opt<Account> {
+    if (
+        minting_account !== null &&
+        is_subaccount_valid(minting_account.subaccount) === false
+    ) {
+        ic.trap(`subaccount for minting account must be 32 bytes in length`);
+    }
 
-        const args: TransferArgs = {
-            amount: initial_account_balance.balance,
-            created_at_time: ic.time(),
-            fee: null,
-            from_subaccount: null,
-            memo: null,
-            to: initial_account_balance.account
-        };
+    return minting_account;
+}
 
-        const mint_result = handle_mint(args, state.minting_account);
+function initialize_account_balance(
+    initial_account_balance: InitialAccountBalance
+) {
+    if (
+        is_subaccount_valid(initial_account_balance.account.subaccount) ===
+        false
+    ) {
+        ic.trap(
+            `subaccount for initial account ${initial_account_balance.account.owner.toText()} must be 32 bytes in length`
+        );
+    }
 
-        if ('Err' in mint_result) {
-            ic.trap(stringify(mint_result.Err));
-        }
-    });
+    const args: TransferArgs = {
+        amount: initial_account_balance.balance,
+        created_at_time: ic.time(),
+        fee: null,
+        from_subaccount: null,
+        memo: null,
+        to: initial_account_balance.account
+    };
+
+    const mint_result = handle_mint(args, state.minting_account);
+
+    if ('Err' in mint_result) {
+        ic.trap(stringify(mint_result.Err));
+    }
 }
