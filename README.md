@@ -30,7 +30,7 @@ Edit the initial arguments Candid record found in `ICRC-1/init_args.txt` to conf
 
 The initial arguments record looks like this in Candid:
 
-```bash
+```typescript
 type InitArgs = record {
     "decimals": nat8;
     "fee": nat;
@@ -100,7 +100,7 @@ type SupportedStandard = {
 
 Here's [the Candid file](/src/index.did) which shows you the interface of the [ICRC-1 standard](https://github.com/dfinity/ICRC-1), with other types specific to this implementation.
 
-```bash
+```typescript
 type Transaction = record {
     "args": opt TransferArgs;
     "fee": nat;
