@@ -176,11 +176,11 @@ function is_anonymous(principal: Principal): boolean {
 }
 
 export function is_subaccount_valid(subaccount: Opt<Subaccount>): boolean {
-    return subaccount === null || subaccount.length === 4;
+    return subaccount === null || subaccount.length === 32;
 }
 
 function is_memo_valid(memo: Opt<blob>): boolean {
-    return memo === null || memo.length <= 4;
+    return memo === null || memo.length <= 32;
 }
 
 function is_created_at_time_in_future(created_at_time: Opt<nat64>): boolean {
