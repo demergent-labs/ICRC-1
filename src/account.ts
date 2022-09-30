@@ -1,4 +1,4 @@
-import { nat, nat32, Opt } from 'azle';
+import { nat, Opt } from 'azle';
 import { state } from './state';
 import { Account, OwnerKey, Subaccount, SubaccountKey } from './types';
 
@@ -24,8 +24,7 @@ export function get_account_keys(account: Account): {
 } {
     const owner_key: OwnerKey = account.owner.toText();
 
-    const subaccount_number: nat32 = subaccount_to_nat32(account.subaccount);
-    const subaccount_key: SubaccountKey = subaccount_number.toString();
+    const subaccount_key: SubaccountKey = subaccount_to_hex(account.subaccount);
 
     return {
         owner_key,
@@ -33,12 +32,12 @@ export function get_account_keys(account: Account): {
     };
 }
 
-export function subaccount_to_nat32(subaccount: Opt<Subaccount>): nat32 {
-    const subaccount_number =
-        subaccount === null ? 0 : new DataView(subaccount.buffer).getUint32(0);
+export function subaccount_to_hex(subaccount: Opt<Subaccount>): SubaccountKey {
+    const hex = 
+        subaccount === null ? "0".repeat(64): subaccount.buffer.toString("hex");
 
-    return subaccount_number;
-}
+    return hex
+};
 
 export function balance_of(account: Account): nat {
     const { owner_key, subaccount_key } = get_account_keys(account);
